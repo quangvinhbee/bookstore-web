@@ -10,7 +10,7 @@ const { User } = require('../models')
  */
 const createUser = async (userBody) => {
     if (await User.isEmailTaken(userBody.email)) {
-        throw ApiError('Email đã tồn tại', httpStatus.BAD_REQUEST)
+        throw ApiError(httpStatus.BAD_REQUEST, 'Email đã tồn tại')
     }
     return User.create(userBody)
 }

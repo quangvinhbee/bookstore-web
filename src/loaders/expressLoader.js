@@ -37,19 +37,19 @@ module.exports = () => {
     app.options('*', cors())
 
     // setup nextjs
-    if (config.get('next.enable')) {
-        const nextApp = next({ dev: config.get('next.devMode'), dir: './next' })
-        const handle = nextApp.getRequestHandler()
-        nextApp
-            .prepare()
-            .then(() => {
-                console.log('Next App Initialized!')
-                app.get('*', (req, res) => handle(req, res))
-            })
-            .catch((err) => {
-                console.log('Start Frontend Error', err)
-            })
-    }
+    // if (config.get('next.enable')) {
+    //     const nextApp = next({ dev: config.get('next.devMode'), dir: './next' })
+    //     const handle = nextApp.getRequestHandler()
+    //     nextApp
+    //         .prepare()
+    //         .then(() => {
+    //             console.log('Next App Initialized!')
+    //             app.get('*', (req, res) => handle(req, res))
+    //         })
+    //         .catch((err) => {
+    //             console.log('Start Frontend Error', err)
+    //         })
+    // }
 
     // api routes
     app.use('/', routeConfig)

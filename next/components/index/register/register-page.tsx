@@ -28,13 +28,12 @@ export function FormRegister() {
     })
     const register = () => {
         if (user.password == user.repassword)
-            registerUser(user.firstName, user.email, user.password)
+            registerUser(user.firstName + ' ' + user.firstName, user.email, user.password)
                 .then((res) => {
                     alert.success('Đăng kí thành công')
                 })
-                .catch((err) => {
-                    alert.error('Lỗi đăng kí. ' + err)
-                    console.log('Lỗi đăng kí. ' + err.respone)
+                .catch((error) => {
+                    alert.error('Lỗi đăng kí. ' + error.response.data.message)
                 })
         else alert.error('Mật khẩu không khớp')
     }

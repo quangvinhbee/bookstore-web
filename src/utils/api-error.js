@@ -12,7 +12,7 @@
 //     }
 // }
 
-const ApiError = (message, statusCode) => ({
+const ApiError = (statusCode, message) => ({
     message: message,
     statusCode: statusCode,
 })
