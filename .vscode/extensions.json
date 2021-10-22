@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "graphql.vscode-graphql",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "rbbit.typescript-hero",
+    "streetsidesoftware.code-spell-checker",
+    "EditorConfig.EditorConfig",
+    "christian-kohler.path-intellisense",
+    "mikestead.dotenv",
+    "Orta.vscode-jest"
+  ]
+}
