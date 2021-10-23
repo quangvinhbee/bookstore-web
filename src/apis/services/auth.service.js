@@ -9,6 +9,7 @@ const loginUserwithEmailAndPassword = async (email, password) => {
     if (!user || !(await user.isPasswordMatch(password))) {
         throw ApiError(httpStatus.UNAUTHORIZED, 'Tài khoản hoặc mật khẩu không đúng')
     }
+
     return user
 }
 
