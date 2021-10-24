@@ -1,13 +1,8 @@
 const express = require('express')
+const { authorController } = require('../../controllers')
 
 const router = express.Router()
 
-router.get('/test', (req, res) => {
-    const { token } = req.headers
-    res.status(200).send({
-        name: 'admin',
-        role: 'ADMIN',
-    })
-})
+router.post('/createAuthor', authorController.createAuthor)
 
 module.exports = router

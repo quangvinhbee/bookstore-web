@@ -19,6 +19,9 @@ const AuthorSchema = Schema(
         address: {
             type: String,
         },
+        image: {
+            type: String,
+        },
     },
     {
         timestamps: true,
