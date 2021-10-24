@@ -5,5 +5,6 @@ const { authorController, bookController, categoryController } = require('../../
 const router = express.Router()
 
 router.get('/getAllBook', bookController.getAllBook)
+router.get('/getOneBook', bookController.getOneBook)
 
 module.exports = router

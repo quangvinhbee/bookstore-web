@@ -1,24 +1,43 @@
-const { query } = require('express')
 const httpStatus = require('http-status')
 
 const ApiError = require('../../utils/api-error')
+const { getAll, create, deleteOne, updateOne, getOne } = require('./shared/services')
 const { Book } = require('../models')
 
 const createBook = async (bookBody) => {
-    const book = await Book.create(bookBody).catch((err) => {
+    return await create(Book, bookBody).catch((err) => {
         throw ApiError(httpStatus.FORBIDDEN, err.message)
     })
-    if (book) return book
 }
 
-const getAllBook = async (query = {}) => {
-    const books = await Book.paginate(query, { limit: 1 }).catch((err) => {
-        throw ApiError(httpStatus.FORBIDDEN, err.message)
+const getAllBook = async (filter = {}, query = {}) => {
+    return await getAll(Book, filter, query).catch((err) => {
+        throw err
     })
-    if (books) return books
+}
+
+const getOneBook = async (id) => {
+    return await getOne(Book, id).catch((err) => {
+        throw err
+    })
+}
+
+const deleteOneBook = async (id) => {
+    return await deleteOne(Book, id).catch((err) => {
+        throw err
+    })
+}
+
+const updateOneBook = async (id, data) => {
+    return await updateOne(Book, id, data).catch((err) => {
+        throw err
+    })
 }
 
 module.exports = {
     createBook,
     getAllBook,
+    deleteOneBook,
+    updateOneBook,
+    getOneBook,
 }
