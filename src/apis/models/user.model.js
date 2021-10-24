@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
+const { ROLE } = require('../../constants/auth')
 
 const { toJSON, paginate } = require('./plugins')
 
@@ -34,6 +35,12 @@ const userSchema = mongoose.Schema(
                 }
             },
             private: true,
+        },
+        role: {
+            type: String,
+            enum: [ROLE.admin.role, ROLE.user.role],
+            default: ROLE.user.role,
+            require: true,
         },
         isEmailVerified: {
             type: Boolean,

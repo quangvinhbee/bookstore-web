@@ -12,9 +12,11 @@
 //     }
 // }
 
-const ApiError = (statusCode, message) => ({
-    message: message,
-    statusCode: statusCode,
-})
+const ApiError = (statusCode, message) => {
+    return {
+        message: message,
+        statusCode: statusCode,
+    }
+}
 
 module.exports = ApiError
