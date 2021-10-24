@@ -7,13 +7,13 @@ const TokenSchema = Schema(
     {
         token: {
             type: String,
-            require: true,
+            required: true,
             index: true,
         },
         user: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'User',
-            require: true,
+            required: true,
         },
         type: {
             type: String,
@@ -21,7 +21,7 @@ const TokenSchema = Schema(
         },
         expires: {
             type: Date,
-            require: true,
+            required: true,
         },
         blackListed: {
             type: Boolean,

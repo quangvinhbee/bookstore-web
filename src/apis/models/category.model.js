@@ -5,10 +5,10 @@ const CategorySchema = Schema(
     {
         title: {
             type: String,
-            require: true,
+            required: true,
         },
         image: {
-            type: URL,
+            type: String,
         },
     },
     {
@@ -19,4 +19,4 @@ const CategorySchema = Schema(
 CategorySchema.plugin(toJSON)
 CategorySchema.plugin(paginate)
 
-module.exports = mongoose.model('book', CategorySchema)
+module.exports = mongoose.model('category', CategorySchema)

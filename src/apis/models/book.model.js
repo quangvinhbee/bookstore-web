@@ -5,22 +5,26 @@ const BookShema = Schema(
     {
         title: {
             type: String,
-            require: true,
+            required: true,
         },
         price: {
             type: Number,
-            require: true,
+            required: true,
         },
         authorId: {
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'Author',
-            require: true,
+            required: true,
+        },
+        categoryId: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'Category',
         },
         version: {
             type: String,
         },
         image: {
-            type: URL,
+            type: String,
         },
         publishedAt: {
             type: Date,

@@ -8,7 +8,7 @@ const AuthorSchema = Schema(
         displayName: {
             type: String,
             trim: true,
-            require: true,
+            required: true,
         },
         birthday: {
             type: Date,
