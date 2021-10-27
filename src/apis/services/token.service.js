@@ -40,6 +40,12 @@ const generateToken = (
     return jwt.sign(payload, secret + role)
 }
 
+const getToken = async (token) => {
+    return await Token.findOne({
+        token: token,
+    })
+}
+
 const getTokenByRefresh = async (refreshToken, isBlackListed) => {
     const refreshTokenDoc = await Token.findOne({
         token: refreshToken,
@@ -74,4 +80,5 @@ module.exports = {
     generateToken,
     getTokenByRefresh,
     verifyToken,
+    getToken,
 }

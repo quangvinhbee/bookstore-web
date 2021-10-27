@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { useRouter } from 'next/dist/client/router'
-import { createContext, useContext, useState } from 'react'
-import { setTokenAdmin } from '../api/header'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { setTokenAdmin, getTokenAdmin } from '../api/header'
 import { ADMIN, ROLE, USER } from '../type'
 
 export const AuthContext = createContext<{
     registerUser?: (displayName: string, email: string, password: string) => Promise<any>
     loginUserWithEmailAndPassword?: (email: string, password: string) => Promise<any>
+    userGetMe?: () => Promise<any>
     redirectToAdminPage?: () => void
     redirectToLoginPage?: () => void
     user?: USER
@@ -23,6 +24,16 @@ export function AuthProvider(props) {
             email: email,
             password: password,
         })
+    }
+
+    const userGetMe = async () => {
+        return await axios
+            .post<{ response: USER }>('/api/v1/auth/userGetMe')
+            .then((res) => {
+                var { response } = res.data
+                setUser(response)
+            })
+            .catch((err) => console.log(err))
     }
 
     const loginUserWithEmailAndPassword = async (email, password) => {
@@ -45,9 +56,14 @@ export function AuthProvider(props) {
         }
     }
     const redirectToLoginPage = () => {
-        const pathname = localStorage.setItem(PRE_LOGIN_PATHNAME, router.pathname)
+        localStorage.setItem(PRE_LOGIN_PATHNAME, router.pathname)
         if (!user) router.replace('/login')
     }
+
+    useEffect(() => {
+        const tokenAdmin = getTokenAdmin()
+        if (user == undefined && tokenAdmin) userGetMe()
+    }, [])
     return (
         <AuthContext.Provider
             value={{
@@ -55,6 +71,7 @@ export function AuthProvider(props) {
                 loginUserWithEmailAndPassword,
                 redirectToAdminPage,
                 redirectToLoginPage,
+                userGetMe,
                 user,
             }}
         >

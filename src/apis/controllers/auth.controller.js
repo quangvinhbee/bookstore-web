@@ -16,7 +16,17 @@ const loginUserwithEmailAndPassword = catchAsync(async (req, res) => {
         .loginUserwithEmailAndPassword(email, password)
         .catch((err) => res.status(err.statusCode).send(err))
     const tokens = await tokenService.generateAuthToken(response)
+    console.log(response)
     res.status(httpStatus.ACCEPTED).send({ response, tokens })
+})
+
+const userGetMe = catchAsync(async (req, res) => {
+    const { token } = req.headers
+    const response = await userService.getUserByToken(token).catch((err) => {
+        console.log(err)
+        res.status(err.statusCode || httpStatus.UNAUTHORIZED).send({ error: err })
+    })
+    if (response) res.status(httpStatus.CREATED).send({ response })
 })
 
 const verifyTokenAdmin = catchAsync(async (req, res, next) => {
@@ -32,4 +42,9 @@ const verifyTokenAdmin = catchAsync(async (req, res, next) => {
         })
 })
 
-module.exports = { registerUser, loginUserwithEmailAndPassword, verifyTokenAdmin }
+module.exports = {
+    registerUser,
+    loginUserwithEmailAndPassword,
+    verifyTokenAdmin,
+    userGetMe,
+}

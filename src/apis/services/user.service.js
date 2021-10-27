@@ -1,5 +1,5 @@
 const httpStatus = require('http-status')
-
+const jwt = require('jsonwebtoken')
 const ApiError = require('../../utils/api-error')
 const { User } = require('../models')
 
@@ -15,6 +15,23 @@ const createUser = async (userBody) => {
     return User.create(userBody)
 }
 
+const getUserById = async (id) => {
+    return await User.findById(id).catch((err) => {
+        throw ApiError(httpStatus.UNAUTHORIZED, 'Tài khoản không tồn tại')
+    })
+}
+
+const getUserByToken = async (token) => {
+    try {
+        const { sub } = jwt.decode(token)
+        return await User.findById(sub).catch((err) => {
+            throw ApiError(httpStatus.UNAUTHORIZED, 'Tài khoản không tồn tại. ')
+        })
+    } catch {
+        throw ApiError(httpStatus.UNAUTHORIZED, 'Token không đúng.')
+    }
+}
+
 /**
  * Get user by email
  * @param {string} email
@@ -27,4 +44,6 @@ const getUserByEmail = async (email) => {
 module.exports = {
     createUser,
     getUserByEmail,
+    getUserById,
+    getUserByToken,
 }
