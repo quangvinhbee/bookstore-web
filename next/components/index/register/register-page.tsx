@@ -1,3 +1,4 @@
+import { useRouter } from 'next/dist/client/router'
 import { useState } from 'react'
 import { useAlert } from '../../../lib/providers/alert-provider'
 import { useAuth } from '../../../lib/providers/auth-provider'
@@ -19,6 +20,7 @@ export function RegisterPage() {
 export function FormRegister() {
     const { registerUser } = useAuth()
     const alert = useAlert()
+    const router = useRouter()
     const [user, setUser] = useState({
         firstName: '',
         lastName: '',
@@ -30,10 +32,12 @@ export function FormRegister() {
         if (user.password == user.repassword)
             registerUser(user.firstName + ' ' + user.firstName, user.email, user.password)
                 .then((res) => {
-                    alert.success('Đăng kí thành công')
+                    alert.success('Đăng kí thành công').then(() => {
+                        router.replace('/login')
+                    })
                 })
                 .catch((error) => {
-                    alert.error('Lỗi đăng kí. ' + error.response.data.message)
+                    alert.error('Lỗi đăng kí. ' + error.response.data.error.message)
                 })
         else alert.error('Mật khẩu không khớp')
     }

@@ -4,19 +4,19 @@ const { userService, authService, tokenService } = require('../services')
 const { ROLE } = require('../../constants/auth')
 
 const registerUser = catchAsync(async (req, res) => {
-    const respone = await userService.createUser(req.body).catch((err) => {
+    const response = await userService.createUser(req.body).catch((err) => {
         res.status(err.statusCode).send({ error: err })
     })
-    if (respone) res.status(httpStatus.CREATED).send({ respone })
+    if (response) res.status(httpStatus.CREATED).send({ response })
 })
 
 const loginUserwithEmailAndPassword = catchAsync(async (req, res) => {
     const { email, password } = req.body
-    const respone = await authService
+    const response = await authService
         .loginUserwithEmailAndPassword(email, password)
         .catch((err) => res.status(err.statusCode).send(err))
-    const tokens = await tokenService.generateAuthToken(respone)
-    res.status(httpStatus.ACCEPTED).send({ respone, tokens })
+    const tokens = await tokenService.generateAuthToken(response)
+    res.status(httpStatus.ACCEPTED).send({ response, tokens })
 })
 
 const verifyTokenAdmin = catchAsync(async (req, res, next) => {

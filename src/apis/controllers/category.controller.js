@@ -4,42 +4,42 @@ const { categoryService } = require('../services')
 
 const createCategory = catchAsync(async (req, res) => {
     console.log(req.body)
-    const respone = await categoryService.createCategory(req.body).catch((err) => {
+    const response = await categoryService.createCategory(req.body).catch((err) => {
         res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
-    if (respone) res.status(httpStatus.CREATED).send({ respone })
+    if (response) res.status(httpStatus.CREATED).send({ response })
 })
 
 const getAllCategory = catchAsync(async (req, res) => {
     const { filter, query } = req.body
-    const respone = await categoryService.getAllCategory(filter, query).catch((err) => {
+    const response = await categoryService.getAllCategory(filter, query).catch((err) => {
         res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
-    if (respone) res.status(httpStatus.CREATED).send({ respone })
+    if (response) res.status(httpStatus.CREATED).send({ response })
 })
 
 const getOneCategory = catchAsync(async (req, res) => {
     const { id } = req.body
-    const respone = await categoryService.getOneCategory(id).catch((err) => {
+    const response = await categoryService.getOneCategory(id).catch((err) => {
         res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
-    if (respone) res.status(httpStatus.CREATED).send({ respone })
+    if (response) res.status(httpStatus.CREATED).send({ response })
 })
 
 const deleteOneCategory = catchAsync(async (req, res) => {
     const { id } = req.body
-    const respone = await categoryService.deleteOneCategory(id).catch((err) => {
+    const response = await categoryService.deleteOneCategory(id).catch((err) => {
         res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
-    if (respone) res.status(httpStatus.CREATED).send({ respone })
+    if (response) res.status(httpStatus.CREATED).send({ response })
 })
 
 const updateOneCategory = catchAsync(async (req, res) => {
     const data = req.body
-    const respone = await categoryService.updateOneCategory(data?.id, data).catch((err) => {
+    const response = await categoryService.updateOneCategory(data?.id, data).catch((err) => {
         res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
-    if (respone) res.status(httpStatus.CREATED).send({ respone })
+    if (response) res.status(httpStatus.CREATED).send({ response })
 })
 
 module.exports = {
