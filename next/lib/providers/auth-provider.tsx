@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useRouter } from 'next/dist/client/router'
 import { createContext, useContext, useEffect, useState } from 'react'
+import { callAPI } from '../api'
 import { setTokenAdmin, getTokenAdmin } from '../api/header'
 import { ADMIN, ROLE, USER } from '../type'
 
@@ -17,6 +18,7 @@ export function AuthProvider(props) {
     const PRE_LOGIN_PATHNAME = 'PRE_LOGIN_PATHNAME'
     const router = useRouter()
     const [user, setUser] = useState<USER>(undefined)
+    console.log('user', user)
 
     const registerUser = async (displayName: string, email: string, password: string) => {
         return await axios.post('/api/v1/auth/createUser', {
@@ -27,13 +29,12 @@ export function AuthProvider(props) {
     }
 
     const userGetMe = async () => {
-        return await axios
-            .post<{ response: USER }>('/api/v1/auth/userGetMe')
+        await callAPI({ method: 'GET', url: '/api/v1/auth/userGetMe' })
             .then((res) => {
                 var { response } = res.data
                 setUser(response)
             })
-            .catch((err) => console.log(err))
+            .catch((err) => setUser(null))
     }
 
     const loginUserWithEmailAndPassword = async (email, password) => {

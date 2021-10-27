@@ -12,37 +12,40 @@ import { Header } from './components/header'
 import Sidebar from './components/sidebar'
 
 export function AdminLayout({ ...props }) {
-    const { user, redirectToLoginPage } = useAuth()
+    const { user, redirectToLoginPage, userGetMe } = useAuth()
     useEffect(() => {
-        if (user == undefined) {
-        } else if (user == null) {
+        if (user === undefined) {
+            userGetMe()
+        } else if (user === null) {
+            console.log('redirectToLoginPage')
             redirectToLoginPage()
         }
     }, [user])
-    if (!user) return <Spinner />
-    return (
-        <div className="w-full">
-            <DefaultHead />
-            <NextSeo defaultTitle={'ADMIN'} title={props.title ? props.title : ''} />
-            <Header />
-            <div className="flex pt-14 w-full relative min-h-screen">
-                <Sidebar />
-                <div className="flex-1 flex flex-col pl-60">
-                    <div className="p-6">
-                        <Card>
-                            {user?.role === ROLE.admin ? (
-                                props.children
-                            ) : (
-                                <NotFound
-                                    icon={<HiOutlineExclamation />}
-                                    text="Không đủ quyền truy cập"
-                                />
-                            )}
-                        </Card>
+    if (user == undefined) return <Spinner />
+    else
+        return (
+            <div className="w-full">
+                <DefaultHead />
+                <NextSeo defaultTitle={'ADMIN'} title={props.title ? props.title : ''} />
+                <Header />
+                <div className="flex pt-14 w-full relative min-h-screen">
+                    <Sidebar />
+                    <div className="flex-1 flex flex-col pl-60">
+                        <div className="p-6">
+                            <Card>
+                                {user?.role === ROLE.admin ? (
+                                    props.children
+                                ) : (
+                                    <NotFound
+                                        icon={<HiOutlineExclamation />}
+                                        text="Không đủ quyền truy cập"
+                                    />
+                                )}
+                            </Card>
+                        </div>
                     </div>
                 </div>
+                <Footer />
             </div>
-            <Footer />
-        </div>
-    )
+        )
 }
