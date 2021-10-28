@@ -6,6 +6,7 @@ import { GiOrganigram } from 'react-icons/gi'
 import { Footer } from './footer'
 import { Button } from '../../../components/shared/form/button'
 import { Accordion } from '../../../components/shared/accordion/accordion'
+import { HiBookOpen, HiMenu, HiPencilAlt, HiUser } from 'react-icons/hi'
 
 interface PropsType extends ReactProps {}
 export default function Sidebar({ ...props }: PropsType) {
@@ -71,14 +72,25 @@ export const SIDEBAR_MENUS_ADMIN = [
         title: 'Quản trị',
         submenus: [
             {
-                title: 'Quản lý tổ chức',
-                path: '/admin',
-                icon: <GiOrganigram />,
+                title: 'Tài khoản',
+                path: '/admin/management/user',
+                icon: <HiUser />,
+            },
+
+            {
+                title: 'Sách',
+                path: '/admin/management/book',
+                icon: <HiBookOpen />,
             },
             {
-                title: 'Tài khoản',
-                path: '/admin/management/users',
-                icon: <RiUser2Line />,
+                title: 'Tác giả',
+                path: '/admin/management/author',
+                icon: <HiPencilAlt />,
+            },
+            {
+                title: 'Danh mục',
+                path: '/admin/management/category',
+                icon: <HiMenu />,
             },
         ],
     },

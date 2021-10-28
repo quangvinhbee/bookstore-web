@@ -1,10 +1,10 @@
-import { AdminLayout } from '../../layouts/admin-layout/admin-layout'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 export default function Page() {
-    return <div className="">asdasd</div>
-}
-
-Page.Layout = AdminLayout
-Page.LayoutProps = {
-    title: 'Admin',
+    const router = useRouter()
+    useEffect(() => {
+        router.replace('/admin/management/user')
+    }, [])
+    return <div className=""></div>
 }

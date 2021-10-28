@@ -4,11 +4,11 @@ const { authorController, bookController, categoryController } = require('../../
 
 const router = express.Router()
 
-router.get('/getAllBook', bookController.getAllBook)
-router.get('/getOneBook', bookController.getOneBook)
-router.get('/getAllCategory', categoryController.getAllCategory)
-router.get('/getOneCategory', categoryController.getOneCategory)
-router.get('/getAllAuthor', authorController.getAllAuthor)
-router.get('/getOneAuthor', authorController.getOneAuthor)
+router.post('/getAllBook', bookController.getAllBook)
+router.post('/getOneBook', bookController.getOneBook)
+router.post('/getAllCategory', categoryController.getAllCategory)
+router.post('/getOneCategory', categoryController.getOneCategory)
+router.post('/getAllAuthor', authorController.getAllAuthor)
+router.post('/getOneAuthor', authorController.getOneAuthor)
 
 module.exports = router

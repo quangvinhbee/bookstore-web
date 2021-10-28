@@ -12,6 +12,7 @@ const createBook = catchAsync(async (req, res) => {
 
 const getAllBook = catchAsync(async (req, res) => {
     const { filter, query } = req.body
+    console.log(req.body)
     const response = await bookService.getAllBook(filter, query).catch((err) => {
         res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
@@ -20,6 +21,7 @@ const getAllBook = catchAsync(async (req, res) => {
 
 const getOneBook = catchAsync(async (req, res) => {
     const { id } = req.body
+    console.log(req.body)
     const response = await bookService.getOneBook(id).catch((err) => {
         res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
@@ -28,6 +30,7 @@ const getOneBook = catchAsync(async (req, res) => {
 
 const deleteOneBook = catchAsync(async (req, res) => {
     const { id } = req.body
+    console.log(req.body)
     const response = await bookService.deleteOneBook(id).catch((err) => {
         res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
@@ -36,6 +39,7 @@ const deleteOneBook = catchAsync(async (req, res) => {
 
 const updateOneBook = catchAsync(async (req, res) => {
     const data = req.body
+    console.log(req.body)
     const response = await bookService.updateOneBook(data?.id, data).catch((err) => {
         res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
