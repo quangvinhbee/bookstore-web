@@ -3,9 +3,10 @@ const { toJSON, paginate } = require('./plugins')
 const Schema = mongoose.Schema
 const BookShema = Schema(
     {
-        title: {
+        name: {
             type: String,
-            required: true,
+            trim: true,
+            require: true,
         },
         price: {
             type: Number,

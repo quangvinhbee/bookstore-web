@@ -3,9 +3,10 @@ const { toJSON, paginate } = require('./plugins')
 const Schema = mongoose.Schema
 const CategorySchema = Schema(
     {
-        title: {
+        name: {
             type: String,
-            required: true,
+            require: true,
+            trim: true,
         },
         image: {
             type: String,

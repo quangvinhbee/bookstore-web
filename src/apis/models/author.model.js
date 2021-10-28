@@ -10,6 +10,10 @@ const AuthorSchema = Schema(
             trim: true,
             required: true,
         },
+        name: {
+            type: String,
+            trim: true,
+        },
         birthday: {
             type: Date,
         },

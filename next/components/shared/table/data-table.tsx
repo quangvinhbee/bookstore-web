@@ -56,7 +56,10 @@ export function DataTable<T extends BaseModel>({
     const loadAll = async () => {
         setLoadingItems(true)
         crudService
-            .getAll({ filter: { ...filter, name: search }, query: { limit: limit } })
+            .getAll({
+                filter: { ...filter, name: search },
+                query: { limit: pagination.limit, page: pagination.page },
+            })
             .then((res) => {
                 var data = res.data.response.results
                 var pagi: Pagination = {
@@ -65,11 +68,11 @@ export function DataTable<T extends BaseModel>({
                     total: res?.data?.response?.totalResults,
                 }
                 setItems(cloneDeep(data))
-                setPagination({
-                    ...pagination,
-                    page: pagi?.page,
-                    total: pagi?.total,
-                })
+                if (pagination.total == 0)
+                    setPagination({
+                        ...pagination,
+                        total: pagi?.total,
+                    })
             })
             .catch((err) => {
                 alert.error(err.message)
