@@ -31,7 +31,7 @@ export function AdminLayout({ ...props }) {
                 <div className="flex pt-14 w-full relative min-h-screen">
                     <Sidebar />
                     <div className="flex-1 flex flex-col pl-60">
-                        <div className="p-6">
+                        <div className="p-6 min-h-screen">
                             <Card>
                                 {user?.role === ROLE.admin ? (
                                     props.children
@@ -43,9 +43,9 @@ export function AdminLayout({ ...props }) {
                                 )}
                             </Card>
                         </div>
+                        <Footer />
                     </div>
                 </div>
-                <Footer />
             </div>
         )
 }

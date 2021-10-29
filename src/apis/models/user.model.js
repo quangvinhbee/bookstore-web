@@ -55,7 +55,7 @@ const userSchema = mongoose.Schema(
         timestamps: true,
     }
 )
-
+userSchema.index({ '$**': 'text' })
 userSchema.plugin(toJSON)
 userSchema.plugin(paginate)
 

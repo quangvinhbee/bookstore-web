@@ -1,6 +1,9 @@
 import { BaseModel, CrudService } from './crudService'
 
-export interface Book extends BaseModel {}
+export interface Book extends BaseModel {
+    name?: string
+    image?: string
+}
 
 export class BookRepository extends CrudService<Book> {
     apiName = 'Book'

@@ -1,7 +1,7 @@
 const ApiError = require('../../../utils/api-error')
 const httpStatus = require('http-status')
-const getAll = async (schema, filter = {}, query = { limit: 10 }) => {
-    return await schema.paginate(filter, query).catch((err) => {
+const getAll = async (schema, filter = {}, query = { limit: 10 }, search) => {
+    return await schema.paginate(filter, query, search).catch((err) => {
         throw ApiError(httpStatus.FORBIDDEN, err.message)
     })
 }

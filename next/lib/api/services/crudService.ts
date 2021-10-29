@@ -21,6 +21,7 @@ export interface BaseModel {
 export interface QueryInput {
     data?: any
     filter?: any
+    search?: string
     query?: {
         limit?: number
         page?: number

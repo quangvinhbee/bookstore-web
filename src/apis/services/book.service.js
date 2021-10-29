@@ -10,8 +10,8 @@ const createBook = async (bookBody) => {
     })
 }
 
-const getAllBook = async (filter = {}, query = {}) => {
-    return await getAll(Book, filter, query).catch((err) => {
+const getAllBook = async (filter = {}, query = {}, search) => {
+    return await getAll(Book, filter, query, search).catch((err) => {
         throw err
     })
 }

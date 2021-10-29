@@ -35,7 +35,7 @@ const BookShema = Schema(
         timestamps: true,
     }
 )
-
+BookShema.index({ '$**': 'text' })
 BookShema.plugin(toJSON)
 BookShema.plugin(paginate)
 

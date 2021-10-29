@@ -16,7 +16,7 @@ const CategorySchema = Schema(
         timestamps: true,
     }
 )
-
+CategorySchema.index({ '$**': 'text' })
 CategorySchema.plugin(toJSON)
 CategorySchema.plugin(paginate)
 

@@ -5,9 +5,6 @@ import { Table } from './table'
 import { useAlert } from '../../../lib/providers/alert-provider'
 import { useToast } from '../../../lib/providers/toast-provider'
 import useInterval from '../../../lib/hooks/useInterval'
-import { Schema } from 'mongoose'
-import { callAPI } from '../../../lib/api'
-import axios from 'axios'
 import { CrudService, Pagination } from '../../../lib/api/services/crudService'
 import { TablePagination } from './table-pagination'
 import { TableHeader } from './table-header'
@@ -52,13 +49,18 @@ export function DataTable<T extends BaseModel>({
     const [search, setSearch] = useState('')
     const alert = useAlert()
     const toast = useToast()
-    console.log(pagination)
+    useInterval(async () => {
+        if (!loadingItems && !refreshing) {
+            await loadAll()
+        }
+    }, props.autoRefresh)
     const loadAll = async () => {
         setLoadingItems(true)
         crudService
             .getAll({
-                filter: { ...filter, name: search },
+                filter: { ...filter },
                 query: { limit: pagination.limit, page: pagination.page },
+                search: search,
             })
             .then((res) => {
                 var data = res.data.response.results
@@ -68,7 +70,7 @@ export function DataTable<T extends BaseModel>({
                     total: res?.data?.response?.totalResults,
                 }
                 setItems(cloneDeep(data))
-                if (pagination.total == 0)
+                if (pagination.total != pagi?.total)
                     setPagination({
                         ...pagination,
                         total: pagi?.total,

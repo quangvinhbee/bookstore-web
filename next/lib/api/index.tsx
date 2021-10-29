@@ -12,7 +12,14 @@ export interface TypeProps {
     params?: any
 }
 
-export async function callAPI({ method, url, header, body, params, ...props }: TypeProps) {
+export async function callAPI({
+    method,
+    url,
+    body = {},
+    params = {},
+    header = {},
+    ...props
+}: TypeProps) {
     console.log('callAPI')
     let token = getTokenAdmin()
     if (location.pathname.includes('/admin')) {

@@ -5,11 +5,6 @@ const Schema = mongoose.Schema
 
 const AuthorSchema = Schema(
     {
-        displayName: {
-            type: String,
-            trim: true,
-            required: true,
-        },
         name: {
             type: String,
             trim: true,
@@ -31,6 +26,7 @@ const AuthorSchema = Schema(
         timestamps: true,
     }
 )
+AuthorSchema.index({ name: 'text' })
 AuthorSchema.plugin(toJSON)
 AuthorSchema.plugin(paginate)
 
