@@ -5,7 +5,7 @@ const { ROLE } = require('../../constants/auth')
 
 const registerUser = catchAsync(async (req, res) => {
     const response = await userService.createUser(req.body).catch((err) => {
-        res.status(err.statusCode).send({ error: err })
+        res.status(err.statusCode || httpStatus.FORBIDDEN).send({ error: err })
     })
     if (response) res.status(httpStatus.CREATED).send({ response })
 })

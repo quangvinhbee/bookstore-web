@@ -7,12 +7,12 @@ const { toJSON, paginate } = require('./plugins')
 
 const userSchema = mongoose.Schema(
     {
-        displayName: {
+        name: {
             type: String,
             required: true,
             trim: true,
         },
-        name: {
+        image: {
             type: String,
             trim: true,
         },
