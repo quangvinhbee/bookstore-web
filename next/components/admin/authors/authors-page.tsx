@@ -88,7 +88,7 @@ export function AuthorsPage() {
                         label="Ảnh"
                         render={(item: Author) => {
                             console.log(item)
-                            return <DataTable.CellImage value={item.image} compress={10} />
+                            return <DataTable.CellImage value={item.image} />
                         }}
                     />
                     <DataTable.Column

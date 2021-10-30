@@ -90,7 +90,7 @@ export function CategorysPage() {
                         label="Ảnh"
                         render={(item: Category) => {
                             console.log(item)
-                            return <DataTable.CellImage value={item.image} compress={10} />
+                            return <DataTable.CellImage value={item.image} />
                         }}
                     />
 

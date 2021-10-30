@@ -28,6 +28,14 @@ const userGetMe = catchAsync(async (req, res) => {
     })
     if (response) res.status(httpStatus.CREATED).send({ response })
 })
+const adminGetMe = catchAsync(async (req, res) => {
+    const { token } = req.headers
+    const response = await userService.getUserByToken(token).catch((err) => {
+        console.log(err)
+        res.status(err.statusCode || httpStatus.UNAUTHORIZED).send({ error: err })
+    })
+    if (response) res.status(httpStatus.CREATED).send({ response })
+})
 
 const verifyTokenAdmin = catchAsync(async (req, res, next) => {
     const { token } = req.headers
@@ -47,4 +55,5 @@ module.exports = {
     loginUserwithEmailAndPassword,
     verifyTokenAdmin,
     userGetMe,
+    adminGetMe,
 }

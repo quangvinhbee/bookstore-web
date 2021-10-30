@@ -1,5 +1,10 @@
 const express = require('express')
-const { authorController, bookController, categoryController } = require('../../controllers')
+const {
+    authorController,
+    bookController,
+    categoryController,
+    authController,
+} = require('../../controllers')
 
 const router = express.Router()
 
@@ -12,5 +17,7 @@ router.post('/updateOneCategory', categoryController.updateOneCategory)
 router.post('/createAuthor', authorController.createAuthor)
 router.post('/deleteOneAuthor', authorController.deleteOneAuthor)
 router.post('/updateOneAuthor', authorController.updateOneAuthor)
+
+router.get('/adminGetMe', authController.adminGetMe)
 
 module.exports = router
