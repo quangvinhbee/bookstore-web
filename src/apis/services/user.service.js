@@ -2,6 +2,7 @@ const httpStatus = require('http-status')
 const jwt = require('jsonwebtoken')
 const ApiError = require('../../utils/api-error')
 const { User } = require('../models')
+const { getAll, getOne, deleteOne, updateOne } = require('./shared/services')
 
 /**
  * Create a user
@@ -32,6 +33,30 @@ const getUserByToken = async (token) => {
     }
 }
 
+const getAllUser = async (filter = {}, query = {}, search) => {
+    return await getAll(User, filter, query, search).catch((err) => {
+        throw err
+    })
+}
+
+const getOneUser = async (id) => {
+    return await getOne(User, id).catch((err) => {
+        throw err
+    })
+}
+
+const deleteOneUser = async (id) => {
+    return await deleteOne(User, id).catch((err) => {
+        throw err
+    })
+}
+
+const updateOneUser = async (id, data) => {
+    return await updateOne(User, id, data).catch((err) => {
+        throw err
+    })
+}
+
 /**
  * Get user by email
  * @param {string} email
@@ -46,4 +71,8 @@ module.exports = {
     getUserByEmail,
     getUserById,
     getUserByToken,
+    getAllUser,
+    deleteOneUser,
+    updateOneUser,
+    getOneUser,
 }
