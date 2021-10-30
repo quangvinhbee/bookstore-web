@@ -3,7 +3,8 @@ import { useRouter } from 'next/dist/client/router'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { callAPI } from '../api'
 import { setTokenAdmin, getTokenAdmin } from '../api/header'
-import { ADMIN, ROLE, USER } from '../type'
+import { User } from '../api/services/userService'
+import { ROLE } from '../type'
 
 export const AuthContext = createContext<{
     registerUser?: (displayName: string, email: string, password: string) => Promise<any>
@@ -13,17 +14,17 @@ export const AuthContext = createContext<{
     redirectToAdminPage?: () => void
     redirectToLoginPage?: () => void
     redirectToAdminLoginPage?: () => void
-    user?: USER
-    admin?: USER
+    user?: User
+    admin?: User
 }>({})
 
 export function AuthProvider(props) {
     const PRE_LOGIN_PATHNAME = 'PRE_LOGIN_PATHNAME'
     const router = useRouter()
-    const [user, setUser] = useState<USER>(undefined)
-    const [admin, setAdmin] = useState<USER>(undefined)
+    const [user, setUser] = useState<User>(undefined)
+    const [admin, setAdmin] = useState<User>(undefined)
 
-    console.log(admin)
+    console.log(user)
 
     const registerUser = async (displayName: string, email: string, password: string) => {
         return await axios.post('/api/v1/auth/createUser', {
@@ -53,7 +54,7 @@ export function AuthProvider(props) {
 
     const loginUserWithEmailAndPassword = async (email, password) => {
         return await axios
-            .post<{ response: USER; tokens: any }>('/api/v1/auth/loginUser', {
+            .post<{ response: User; tokens: any }>('/api/v1/auth/loginUser', {
                 email: email,
                 password: password,
             })

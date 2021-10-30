@@ -6,11 +6,13 @@ const { ROLE } = require('../../constants/auth')
 const { Token } = require('../models/index')
 
 const generateAuthToken = async (user) => {
+    console.log(user)
     const accessTokenExpires = moment().add(process.env.JWT_EXPIRES / 60, 'minutes')
     const accessToken = generateToken(user.id, accessTokenExpires, tokenTypes.ACCESS, user.role)
 
     const refreshTokenExpires = moment().add(process.env.JWT_EXPIRES / 60, 'minutes')
     const refreshToken = generateToken(user.id, refreshTokenExpires, tokenTypes.REFRESH, user.role)
+
     await saveToken(refreshToken, user.id, refreshTokenExpires, tokenTypes.REFRESH)
     return {
         access: {

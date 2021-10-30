@@ -16,7 +16,6 @@ const loginUserwithEmailAndPassword = catchAsync(async (req, res) => {
         .loginUserwithEmailAndPassword(email, password)
         .catch((err) => res.status(err.statusCode).send(err))
     const tokens = await tokenService.generateAuthToken(response)
-    console.log(response)
     res.status(httpStatus.ACCEPTED).send({ response, tokens })
 })
 
@@ -50,10 +49,24 @@ const verifyTokenAdmin = catchAsync(async (req, res, next) => {
         })
 })
 
+const verifyTokenUser = catchAsync(async (req, res, next) => {
+    const { token } = req.headers
+    tokenService
+        .verifyToken(token, ROLE.user.role)
+        .then(() => next())
+        .catch((error) => {
+            res.status(httpStatus.UNAUTHORIZED).send({
+                status: httpStatus.UNAUTHORIZED,
+                message: error.message,
+            })
+        })
+})
+
 module.exports = {
     registerUser,
     loginUserwithEmailAndPassword,
     verifyTokenAdmin,
+    verifyTokenUser,
     userGetMe,
     adminGetMe,
 }
