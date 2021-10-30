@@ -19,6 +19,21 @@ const loginUserwithEmailAndPassword = catchAsync(async (req, res) => {
     res.status(httpStatus.ACCEPTED).send({ response, tokens })
 })
 
+const loginAdminwithEmailAndPassword = catchAsync(async (req, res) => {
+    const { email, password } = req.body
+    const response = await authService
+        .loginUserwithEmailAndPassword(email, password)
+        .catch((err) => res.status(err.statusCode).send(err))
+    const tokens = await tokenService.generateAuthToken(response)
+    if (response.role !== ROLE.admin.role)
+        res.status(httpStatus.UNAUTHORIZED).send({
+            error: {
+                message: 'Không đủ quyền',
+            },
+        })
+    else res.status(httpStatus.ACCEPTED).send({ response, tokens })
+})
+
 const userGetMe = catchAsync(async (req, res) => {
     const { token } = req.headers
     const response = await userService.getUserByToken(token).catch((err) => {
@@ -69,4 +84,5 @@ module.exports = {
     verifyTokenUser,
     userGetMe,
     adminGetMe,
+    loginAdminwithEmailAndPassword,
 }

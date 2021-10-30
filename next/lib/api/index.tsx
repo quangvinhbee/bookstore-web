@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getTokenAdmin } from './header'
+import { getTokenAdmin, getTokenUser } from './header'
 
 export type HeaderType = {}
 export type BodyType = {}
@@ -21,7 +21,7 @@ export async function callAPI({
     ...props
 }: TypeProps) {
     console.log('callAPI')
-    let token = getTokenAdmin()
+    let token = getTokenUser()
     if (location.pathname.includes('/admin')) {
         token = getTokenAdmin()
     }
