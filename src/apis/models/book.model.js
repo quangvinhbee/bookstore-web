@@ -12,14 +12,14 @@ const BookShema = Schema(
             type: Number,
             required: true,
         },
-        authorId: {
+        author: {
             type: mongoose.SchemaTypes.ObjectId,
-            ref: 'Author',
+            ref: 'author',
             required: true,
         },
-        categoryId: {
+        category: {
             type: mongoose.SchemaTypes.ObjectId,
-            ref: 'Category',
+            ref: 'category',
         },
         version: {
             type: String,

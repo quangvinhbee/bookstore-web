@@ -67,6 +67,7 @@ export function Img({
             props.onClick()
         }
     }
+    console.log(image)
 
     return (
         <LazyLoad

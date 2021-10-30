@@ -68,6 +68,16 @@ export function BooksPage() {
                     />
                     <DataTable.Column
                         center
+                        label="Tác giả"
+                        render={(item: Book) => <DataTable.CellText value={item?.author?.name} />}
+                    />
+                    <DataTable.Column
+                        center
+                        label="Thể loại"
+                        render={(item: Book) => <DataTable.CellText value={item?.category?.name} />}
+                    />
+                    <DataTable.Column
+                        center
                         label="Giá"
                         render={(item: Book) => (
                             <DataTable.CellText value={NumberPipe(item.price, true)} />

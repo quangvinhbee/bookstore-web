@@ -4,9 +4,11 @@ import { BookProvider } from '../../../components/admin/books/providers/book-pro
 
 export default function Page() {
     return (
-        <BookProvider>
-            <BooksPage></BooksPage>
-        </BookProvider>
+        <>
+            <BookProvider>
+                <BooksPage></BooksPage>
+            </BookProvider>
+        </>
     )
 }
 

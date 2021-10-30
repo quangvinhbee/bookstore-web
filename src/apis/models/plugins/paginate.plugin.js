@@ -46,6 +46,7 @@ const paginate = (schema) => {
 
         if (options.populate) {
             options.populate.split(',').forEach((populateOption) => {
+                console.log(populateOption)
                 docsPromise = docsPromise.populate(
                     populateOption
                         .split('.')
@@ -56,7 +57,6 @@ const paginate = (schema) => {
         }
 
         docsPromise = docsPromise.exec()
-
         return Promise.all([countPromise, docsPromise]).then((values) => {
             const [totalResults, results] = values
             const totalPages = Math.ceil(totalResults / limit)
