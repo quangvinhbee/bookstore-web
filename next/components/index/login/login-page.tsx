@@ -1,60 +1,74 @@
+import { useEffect, useState } from 'react'
+import { useAlert } from '../../../lib/providers/alert-provider'
+import { useAuth } from '../../../lib/providers/auth-provider'
+import { ROLE } from '../../../lib/type'
+import { Button } from '../../shared/form/button'
+import { Input } from '../../shared/form/input'
+
 export function LoginPage() {
-  return (
-    <div className="w-full h-full flex flex-1 items-center justify-center">
-      <div className="bg-white min-w-lg min-h-lg rounded-xl shadow-lg">
-        <div className="w-full uppercase text-4xl font-semibold text-gray-600 py-8 flex items-center justify-center">
-          Đăng nhập
+    const { user, redirectToAdminPage } = useAuth()
+    useEffect(() => {
+        if (user) {
+            if (user.role == ROLE.admin) redirectToAdminPage()
+        }
+    }, [user])
+    return (
+        <div className="w-full h-full flex flex-1 items-center justify-center">
+            <div className="bg-white min-w-lg min-h-lg rounded-xl shadow-lg">
+                <div className="w-full uppercase text-4xl font-semibold text-gray-600 py-8 flex items-center justify-center">
+                    Đăng nhập
+                </div>
+                <FormLogin />
+            </div>
         </div>
-        <FormLogin />
-      </div>
-    </div>
-  );
+    )
 }
 export function FormLogin() {
-  return (
-    <form className="px-8 pt-6 pb-8 mb-4">
-      <div className="mb-8">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="username"
-        >
-          Tên đăng nhập
-        </label>
-        <input
-          className="h-12 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="Tên đăng nhập"
-          type="text"
-          placeholder="Tên đăng nhập"
-        />
-      </div>
-      <div className="mb-8">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="password"
-        >
-          Mật khẩu
-        </label>
-        <input
-          className="h-12 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          id="password"
-          type="password"
-          placeholder="*************"
-        />
-      </div>
-      <div className="flex items-center justify-between">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="button"
-        >
-          Đăng nhập
-        </button>
-        <a
-          className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-          href="#"
-        >
-          Quên mật khẩu?
-        </a>
-      </div>
-    </form>
-  );
+    const { loginUserWithEmailAndPassword } = useAuth()
+    const alert = useAlert()
+    const [user, setUser] = useState({
+        email: '',
+        password: '',
+    })
+    const login = async () => {
+        await loginUserWithEmailAndPassword(user.email, user.password).catch((error) => {
+            alert.error('Lỗi đăng nhập. ' + error.response.data.message)
+        })
+    }
+    return (
+        <form className="px-8 pt-6 pb-8 mb-4">
+            <Input
+                name="Email"
+                placeholder="Email"
+                onChange={(data) => {
+                    setUser({ ...user, email: data })
+                }}
+            />
+            <Input
+                name="Mật khẩu"
+                placeholder="Mật khẩu"
+                type="password"
+                onChange={(data) => {
+                    setUser({ ...user, password: data })
+                }}
+            />
+            <div className="flex items-center justify-between">
+                <Button
+                    asyncLoading
+                    primary
+                    onClick={async () => {
+                        await login()
+                    }}
+                >
+                    Đăng nhập
+                </Button>
+                <a
+                    className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                    href="#"
+                >
+                    Quên mật khẩu?
+                </a>
+            </div>
+        </form>
+    )
 }

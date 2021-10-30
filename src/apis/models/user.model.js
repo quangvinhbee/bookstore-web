@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
+const { ROLE } = require('../../constants/auth')
 
 const { toJSON, paginate } = require('./plugins')
 
@@ -9,6 +10,10 @@ const userSchema = mongoose.Schema(
         displayName: {
             type: String,
             required: true,
+            trim: true,
+        },
+        name: {
+            type: String,
             trim: true,
         },
         email: {
@@ -35,6 +40,12 @@ const userSchema = mongoose.Schema(
             },
             private: true,
         },
+        role: {
+            type: String,
+            enum: [ROLE.admin.role, ROLE.user.role],
+            default: ROLE.user.role,
+            required: true,
+        },
         isEmailVerified: {
             type: Boolean,
             default: false,
@@ -44,7 +55,7 @@ const userSchema = mongoose.Schema(
         timestamps: true,
     }
 )
-
+userSchema.index({ '$**': 'text' })
 userSchema.plugin(toJSON)
 userSchema.plugin(paginate)
 
@@ -80,6 +91,5 @@ userSchema.pre('save', async function (next) {
 /**
  * @typedef User
  */
-const User = mongoose.model('User', userSchema)
 
-module.exports = User
+module.exports = mongoose.model('User', userSchema)
