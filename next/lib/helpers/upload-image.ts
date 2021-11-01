@@ -7,7 +7,7 @@ export async function uploadImage(file: File, host: 'imgur' | 'fpt' = 'imgur') {
             data.append('image', file)
 
             try {
-                let res = await axios.post('https://api.imgur.com/3/image', data, {
+                let res = await axios.post<{ data?: any }>('https://api.imgur.com/3/image', data, {
                     headers: {
                         Authorization: 'Client-ID dd32dd3c6aaa9a0',
                     },
@@ -15,11 +15,15 @@ export async function uploadImage(file: File, host: 'imgur' | 'fpt' = 'imgur') {
                 return res.data?.data
             } catch (err) {
                 try {
-                    let res = await axios.post('https://api.imgur.com/3/image', data, {
-                        headers: {
-                            Authorization: 'Client-ID dd32dd3c6aaa9a0',
-                        },
-                    })
+                    let res = await axios.post<{ data?: any }>(
+                        'https://api.imgur.com/3/image',
+                        data,
+                        {
+                            headers: {
+                                Authorization: 'Client-ID dd32dd3c6aaa9a0',
+                            },
+                        }
+                    )
                     return res.data?.data
                 } catch (err) {
                     console.error(err)

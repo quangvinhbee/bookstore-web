@@ -107,6 +107,7 @@ export function AuthProvider(props) {
     useEffect(() => {
         const tokenAdmin = getTokenAdmin()
         if (admin == undefined && location.pathname.includes('/admin')) adminGetMe()
+        if (user == undefined) userGetMe()
     }, [])
     return (
         <AuthContext.Provider
