@@ -5,6 +5,7 @@ import config from 'next/config'
 import { AuthProvider } from '../lib/providers/auth-provider'
 import { AlertProvider } from '../lib/providers/alert-provider'
 import { ToastProvider } from '../lib/providers/toast-provider'
+import { CartProvider } from '../lib/providers/cart-provider'
 
 function MyApp({ Component, pageProps }) {
     const Layout = Component.Layout ? Component.Layout : Fragment
@@ -20,9 +21,11 @@ function MyApp({ Component, pageProps }) {
             <ToastProvider>
                 <AlertProvider>
                     <AuthProvider>
-                        <Layout {...layoutProps}>
-                            <Component {...pageProps} />
-                        </Layout>
+                        <CartProvider>
+                            <Layout {...layoutProps}>
+                                <Component {...pageProps} />
+                            </Layout>
+                        </CartProvider>
                     </AuthProvider>
                 </AlertProvider>
             </ToastProvider>

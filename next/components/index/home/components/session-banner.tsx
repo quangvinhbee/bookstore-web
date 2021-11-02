@@ -9,6 +9,10 @@ export function SessionBanner() {
             <Swiper
                 spaceBetween={1}
                 loop={true}
+                autoplay={{
+                    delay: 5000,
+                    disableOnInteraction: false,
+                }}
                 pagination={{
                     dynamicBullets: true,
                 }}
@@ -17,7 +21,7 @@ export function SessionBanner() {
                     {IMAGE_BANNER.map((item, index) => {
                         return (
                             <SwiperSlide key={index} className={`cursor-pointer`}>
-                                <img src={item.link} className="w-full" key={index} />
+                                <img src={item.link} className="w-full object-cover" key={index} />
                             </SwiperSlide>
                         )
                     })}
@@ -29,12 +33,9 @@ export function SessionBanner() {
 
 const IMAGE_BANNER = [
     {
-        link: 'https://benhviencayanqua.vn/statics/banner1.jpg',
+        link: 'https://salt.tikicdn.com/cache/w1080/ts/banner/7b/95/80/bf960f848881d6d297a1c6c400d96e85.jpg.webp',
     },
     {
-        link: 'https://benhviencayanqua.vn/statics/banner2.jpg',
-    },
-    {
-        link: 'https://benhviencayanqua.vn/statics/banner3.jpg',
+        link: 'https://salt.tikicdn.com/cache/w1080/ts/banner/5b/ef/1f/78d4bdc51262b5107e9b6ef0d96a51e4.jpg.webp',
     },
 ]
