@@ -12,30 +12,25 @@ export function DefaultLayout({ ...props }) {
     const { user, redirectToLoginPage, userGetMe, redirectToAdminPage } = useAuth()
     const router = useRouter()
     useEffect(() => {
-        if (user == undefined) {
+        if (user === undefined) {
             userGetMe()
-        } else if (user == null && !location.pathname.includes('/login')) {
+        } else if (user === null) {
             redirectToLoginPage()
-        } else if (user) {
-            if (user.role == ROLE.admin) {
-                redirectToAdminPage()
-            }
         }
     }, [user])
-    if (user === null)
-        return (
-            <div className="w-full">
-                <DefaultHead />
-                <NextSeo defaultTitle={'N17DCAT078'} title={props.title ? props.title : ''} />
-                <Header />
-                <div
-                    className="w-full h-full flex flex-col"
-                    style={{ minHeight: 'calc(100vh - 96px)' }}
-                >
-                    {props.children}
-                </div>
-                <Footer />
+    if (user === undefined) return <Spinner />
+    return (
+        <div className="w-full">
+            <DefaultHead />
+            <NextSeo defaultTitle={'N17DCAT078'} title={props.title ? props.title : ''} />
+            <Header />
+            <div
+                className="w-full h-full flex flex-col"
+                style={{ minHeight: 'calc(100vh - 96px)' }}
+            >
+                {props.children}
             </div>
-        )
-    else return <Spinner />
+            <Footer />
+        </div>
+    )
 }

@@ -4,8 +4,11 @@ import { useAlert } from '../../../lib/providers/alert-provider'
 import { useAuth } from '../../../lib/providers/auth-provider'
 import { ROLE } from '../../../lib/type'
 import { Button } from '../../shared/form/button'
+import { Field } from '../../shared/form/field'
+import { Form } from '../../shared/form/form'
 import { Input } from '../../shared/form/input'
 import { Spinner } from '../../shared/spinner'
+import Link from 'next/dist/client/link'
 
 export function RegisterPage() {
     const { admin, redirectToAdminPage } = useAuth()
@@ -16,9 +19,9 @@ export function RegisterPage() {
     }, [admin])
     if (admin === undefined) return <Spinner />
     return (
-        <div className="w-full h-full flex flex-1 items-center justify-center">
-            <div className="bg-white min-w-lg min-h-lg rounded-xl shadow-lg my-8">
-                <div className="w-full uppercase text-4xl font-semibold text-gray-600 py-8 flex items-center justify-center">
+        <div className="w-full h-full flex flex-1 items-center justify-center py-16">
+            <div className="bg-white max-w-lg rounded-xl shadow-lg px-8 py-16">
+                <div className="w-full uppercase text-4xl font-semibold text-gray-600 pb-4 flex items-center justify-center">
                     Đăng kí
                 </div>
                 <FormRegister />
@@ -37,12 +40,16 @@ export function FormRegister() {
         password: '',
         repassword: '',
     })
-    const register = () => {
-        if (user.password == user.repassword)
-            registerUser(user.firstName + ' ' + user.firstName, user.email, user.password)
+    const register = (data) => {
+        if (data.password == data.repassword)
+            registerUser(
+                data.firstName.trim() + ' ' + data.lastName.trim(),
+                data.email,
+                data.password
+            )
                 .then((res) => {
                     alert.success('Đăng kí thành công').then(() => {
-                        router.replace('/login')
+                        router.replace('/admin/login')
                     })
                 })
                 .catch((error) => {
@@ -51,56 +58,41 @@ export function FormRegister() {
         else alert.error('Mật khẩu không khớp')
     }
     return (
-        <form className="px-8 pt-6 pb-8 mb-4">
-            <div className="grid grid-cols-2 gap-x-4">
+        <Form
+            onSubmit={(data) => {
+                register(data)
+            }}
+            grid
+        >
+            <Field name="firstName" label="Họ" cols={6}>
+                <Input placeholder="Họ" className="h-12 rounded-lg" />
+            </Field>
+            <Field name="lastName" label="Tên" cols={6}>
+                <Input placeholder="Tên" className="h-12 rounded-lg" />
+            </Field>
+            <Field name="email" label="Email" cols={12}>
+                <Input placeholder="Email" className="h-12 rounded-lg" />
+            </Field>
+            <Field name="password" label="Mật khẩu" cols={12}>
+                <Input placeholder="Mật khẩu" type="password" className="h-12 rounded-lg" />
+            </Field>
+            <Field name="repassword" label="Nhập lại mật khẩu" cols={12}>
                 <Input
-                    name="Họ"
-                    placeholder="Họ"
-                    onChange={(data) => {
-                        setUser({ ...user, firstName: data })
-                    }}
+                    placeholder="Nhập lại mật khẩu"
+                    type="password"
+                    className="h-12 rounded-lg"
                 />
-                <Input
-                    name="Tên"
-                    placeholder="Tên"
-                    onChange={(data) => {
-                        setUser({ ...user, lastName: data })
-                    }}
-                />
-            </div>
-            <Input
-                name="Email"
-                placeholder="Email"
-                onChange={(data) => {
-                    setUser({ ...user, email: data })
-                }}
-            />
-            <Input
-                name="Mật khẩu"
-                placeholder="Mật khẩu"
-                type="password"
-                onChange={(data) => {
-                    setUser({ ...user, password: data })
-                }}
-            />
-            <Input
-                name="Nhập lại mật khẩu"
-                placeholder="Nhập lại mật khẩu"
-                type="password"
-                onChange={(data) => {
-                    setUser({ ...user, repassword: data })
-                }}
-            />
-            <div className="flex items-center justify-center">
-                <Button
-                    primary
-                    onClick={() => {
-                        register()
-                    }}
-                >
+            </Field>
+            <div className="flex items-center justify-between col-span-12">
+                <Button submit asyncLoading primary>
                     Đăng kí
                 </Button>
+                <Link href={'/admin/login'}>
+                    <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                        Bạn đã có tài khoản?
+                    </a>
+                </Link>
             </div>
-        </form>
+        </Form>
     )
 }

@@ -70,7 +70,7 @@ module.exports = () => {
     // // handle error
     // app.use(errorHandler)
 
-    app.listen(process.env.PORT)
+    app.listen(config.get('port'))
 
     return app
 }

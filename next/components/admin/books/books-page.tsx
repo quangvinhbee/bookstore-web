@@ -83,13 +83,7 @@ export function BooksPage() {
                             <DataTable.CellText value={NumberPipe(item.price, true)} />
                         )}
                     />
-                    <DataTable.Column
-                        center
-                        label="Thể loại"
-                        render={(item: Book) => (
-                            <DataTable.CellText value={NumberPipe(item.price, true)} />
-                        )}
-                    />
+
                     <DataTable.Column
                         right
                         render={(item: Book) => (

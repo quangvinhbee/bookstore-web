@@ -2,32 +2,35 @@ import axios from 'axios'
 import { useRouter } from 'next/dist/client/router'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { callAPI } from '../api'
-import { setTokenAdmin, getTokenAdmin } from '../api/header'
-import { ADMIN, ROLE, USER } from '../type'
+import { setTokenAdmin, getTokenAdmin, setTokenUser } from '../api/header'
+import { User } from '../api/services/userService'
+import { ROLE } from '../type'
 
 export const AuthContext = createContext<{
     registerUser?: (displayName: string, email: string, password: string) => Promise<any>
     loginUserWithEmailAndPassword?: (email: string, password: string) => Promise<any>
+    loginAdminrWithEmailAndPassword?: (email: string, password: string) => Promise<any>
     userGetMe?: () => Promise<any>
     adminGetMe?: () => Promise<any>
     redirectToAdminPage?: () => void
     redirectToLoginPage?: () => void
+    redirectToIndexPage?: () => void
     redirectToAdminLoginPage?: () => void
-    user?: USER
-    admin?: USER
+    user?: User
+    admin?: User
 }>({})
 
 export function AuthProvider(props) {
     const PRE_LOGIN_PATHNAME = 'PRE_LOGIN_PATHNAME'
     const router = useRouter()
-    const [user, setUser] = useState<USER>(undefined)
-    const [admin, setAdmin] = useState<USER>(undefined)
+    const [user, setUser] = useState<User>(undefined)
+    const [admin, setAdmin] = useState<User>(undefined)
 
-    console.log(admin)
+    console.log(user)
 
-    const registerUser = async (displayName: string, email: string, password: string) => {
+    const registerUser = async (name: string, email: string, password: string) => {
         return await axios.post('/api/v1/auth/createUser', {
-            displayName: displayName,
+            name: name,
             email: email,
             password: password,
         })
@@ -53,7 +56,20 @@ export function AuthProvider(props) {
 
     const loginUserWithEmailAndPassword = async (email, password) => {
         return await axios
-            .post<{ response: USER; tokens: any }>('/api/v1/auth/loginUser', {
+            .post<{ response: User; tokens: any }>('/api/v1/auth/loginUser', {
+                email: email,
+                password: password,
+            })
+            .then((res) => {
+                var { response, tokens } = res.data
+                setTokenUser(tokens.access.token)
+                if (response.role == ROLE.admin) setAdmin(response)
+                else setUser(response)
+            })
+    }
+    const loginAdminrWithEmailAndPassword = async (email, password) => {
+        return await axios
+            .post<{ response: User; tokens: any }>('/api/v1/auth/loginAdmin', {
                 email: email,
                 password: password,
             })
@@ -67,10 +83,16 @@ export function AuthProvider(props) {
 
     const redirectToAdminPage = () => {
         const pathname = localStorage.getItem(PRE_LOGIN_PATHNAME)
-        console.log('redirectToAdminPage')
         if (admin) {
             if (location.pathname == pathname) router.replace('/admin')
             else router.replace(pathname || '/admin')
+        }
+    }
+    const redirectToIndexPage = () => {
+        const pathname = localStorage.getItem(PRE_LOGIN_PATHNAME)
+        if (user) {
+            if (location.pathname == pathname) router.replace('/')
+            else router.replace(pathname || '/')
         }
     }
     const redirectToAdminLoginPage = () => {
@@ -84,13 +106,16 @@ export function AuthProvider(props) {
 
     useEffect(() => {
         const tokenAdmin = getTokenAdmin()
-        if (admin == undefined && tokenAdmin) adminGetMe()
+        if (admin == undefined && location.pathname.includes('/admin')) adminGetMe()
+        if (user == undefined) userGetMe()
     }, [])
     return (
         <AuthContext.Provider
             value={{
                 registerUser,
                 loginUserWithEmailAndPassword,
+                loginAdminrWithEmailAndPassword,
+                redirectToIndexPage,
                 redirectToAdminPage,
                 redirectToAdminLoginPage,
                 redirectToLoginPage,

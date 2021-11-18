@@ -17,7 +17,7 @@ module.exports = {
         prefix: null,
     },
     next: {
-        enable: false,
+        enable: true,
         devMode: false,
     },
     job: {
