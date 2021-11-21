@@ -8,6 +8,9 @@ const xss = require('xss-clean')
 const routeConfig = require('../apis/routes')
 const config = require('config')
 const next = require('next')
+const rateLimit = require('express-rate-limit')
+const fs = require('fs')
+const https = require('https')
 require('dotenv').config()
 
 module.exports = () => {
@@ -46,6 +49,19 @@ module.exports = () => {
     app.use(cors())
     app.options('*', cors())
 
+    // set rate limit request
+    const createAccountLimiter = rateLimit({
+        windowMs: 60 * 60 * 1000, // 1 hour window
+        max: 50, // start blocking after 5 requests
+        message: 'Too many accounts created from this IP, please try again after an hour',
+    })
+    app.use('/', createAccountLimiter)
+
+    // set http ssl
+    const key = fs.readFileSync('./privkey.pem')
+    const cert = fs.readFileSync('./certificate.crt')
+    const server = https.createServer({ key: key, cert: cert }, app)
+
     // setup nextjs
     if (config.get('next.enable')) {
         const nextApp = next({ dev: config.get('next.devMode'), dir: './next' })
@@ -71,6 +87,9 @@ module.exports = () => {
     // app.use(errorHandler)
 
     app.listen(config.get('port'))
+    // server.listen(3333, () => {
+    //     console.log('listening on 3001')
+    // })
 
     return app
 }
