@@ -50,12 +50,12 @@ module.exports = () => {
     app.options('*', cors())
 
     // set rate limit request
-    const createAccountLimiter = rateLimit({
+    const apiLimiter = rateLimit({
         windowMs: 60 * 60 * 1000, // 1 hour window
-        max: 50, // start blocking after 5 requests
+        max: 5, // start blocking after 5 requests
         message: 'Too many accounts created from this IP, please try again after an hour',
     })
-    app.use('/', createAccountLimiter)
+    app.use('/api/', apiLimiter)
 
     // set http ssl
     const key = fs.readFileSync('./privkey.pem')

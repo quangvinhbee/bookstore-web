@@ -76,6 +76,7 @@ export function AuthProvider(props) {
             .then((res) => {
                 var { response, tokens } = res.data
                 setTokenAdmin(tokens.access.token)
+                router.replace('/admin')
                 if (response.role == ROLE.admin) setAdmin(response)
                 else setUser(response)
             })
