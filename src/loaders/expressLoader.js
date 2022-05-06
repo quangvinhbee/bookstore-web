@@ -50,17 +50,17 @@ module.exports = () => {
     app.options('*', cors())
 
     // set rate limit request
-    const apiLimiter = rateLimit({
-        windowMs: 60 * 60 * 1000, // 1 hour window
-        max: 5, // start blocking after 5 requests
-        message: 'Too many accounts created from this IP, please try again after an hour',
-    })
-    app.use('/api/', apiLimiter)
+    // const apiLimiter = rateLimit({
+    //     windowMs: 60 * 60 * 1000, // 1 hour window
+    //     max: 5, // start blocking after 5 requests
+    //     message: 'Too many accounts created from this IP, please try again after an hour',
+    // })
+    // app.use('/api/', apiLimiter)
 
     // set http ssl
-    const key = fs.readFileSync('./privkey.pem')
-    const cert = fs.readFileSync('./certificate.crt')
-    const server = https.createServer({ key: key, cert: cert }, app)
+    // const key = fs.readFileSync('./privkey.pem')
+    // const cert = fs.readFileSync('./certificate.crt')
+    // const server = https.createServer({ key: key, cert: cert }, app)
 
     // setup nextjs
     if (config.get('next.enable')) {
@@ -88,7 +88,7 @@ module.exports = () => {
 
     app.listen(config.get('port'))
     // server.listen(3333, () => {
-    //     console.log('listening on 3001')
+    //     console.log('listening on 3333')
     // })
 
     return app
